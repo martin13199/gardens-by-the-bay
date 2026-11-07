@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#173d35" />
+  <meta name="description" content="Explore Gardens by the Bay on a live satellite map — hover markers for real photos, stories and visitor details." />
+  <title>Gardens by the Bay — Explore the Gardens</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Gardens by the Bay — Explore the Gardens" />
+  <meta property="og:description" content="Interactive Bay South map with real photos, opening hours, prices and map positions." />
+  <meta property="og:image" content="assets/hero/gardens.jpg" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23173d35'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23d7b879'%3E%E2%9C%B3%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark site-nav sticky-top">
+    <div class="container-fluid px-lg-5">
+      <a class="navbar-brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        GARDENS <span class="brand-light">by the Bay</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+          <li class="nav-item"><a class="nav-link" href="#explore">Explore map</a></li>
+          <li class="nav-item"><a class="nav-link" href="#visitor-map">Visitor map</a></li>
+          <li class="nav-item"><a class="nav-link" href="#highlights">Highlights</a></li>
+          <li class="nav-item"><a class="nav-link" href="#visit">Plan your visit</a></li>
+          <li class="nav-item">
+            <button class="btn btn-outline-light btn-sm rounded-pill px-3" id="shareBtn" type="button">
+              Share this map ↗
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-slides" id="heroSlides" aria-hidden="true">
+      <div class="hero-slide is-active" style="background-image:url('assets/hero/gardens.jpg')" data-caption="Supertree Grove at sunrise"></div>
+      <div class="hero-slide" style="background-image:url('assets/hero/rhapsody.jpg')" data-caption="Garden Rhapsody · light &amp; sound show"></div>
+      <div class="hero-slide" style="background-image:url('assets/places/flower.jpg')" data-caption="Flower Dome · perpetual spring"></div>
+      <div class="hero-slide" style="background-image:url('assets/hero/overview.jpg')" data-caption="Bay South · Supertrees and conservatories"></div>
+      <div class="hero-slide" style="background-image:url('assets/places/cloud.jpg')" data-caption="Cloud Forest · misty mountain world"></div>
+      <div class="hero-slide" style="background-image:url('assets/hero/sculptures.jpg')" data-caption="Planet · art sculpture on the lawns"></div>
+      <div class="hero-slide" style="background-image:url('assets/places/floral.jpg')" data-caption="Floral Fantasy · a floral wonderland"></div>
+      <div class="hero-slide" style="background-image:url('assets/hero/sustainability.jpg')" data-caption="Supertrees across the lake"></div>
+    </div>
+    <div class="hero-shade"></div>
+    <div class="hero-controls">
+      <button type="button" class="hero-arrow" id="heroPrev" aria-label="Previous photo">‹</button>
+      <div class="hero-dots" id="heroDots"></div>
+      <button type="button" class="hero-arrow" id="heroNext" aria-label="Next photo">›</button>
+    </div>
+    <div class="hero-caption" id="heroCaption"></div>
+    <div class="container hero-content">
+      <div class="eyebrow">SINGAPORE · A GARDEN LIKE NO OTHER</div>
+      <h1>Find your wonder<br /><em>in the Gardens.</em></h1>
+      <p>
+        Discover extraordinary spaces on a live satellite map of Bay South.
+        Hover any marker to reveal a real photograph, story and visitor details.
+      </p>
+      <div class="d-flex flex-wrap gap-3 align-items-center">
+        <a class="btn btn-light rounded-pill px-4 py-3 fw-semibold" href="#explore">
+          Explore the interactive map <span class="ms-2">↓</span>
+        </a>
+        <a class="hero-link" href="#visitor-map">View visitor map <span>↗</span></a>
+      </div>
+    </div>
+    <div class="hero-note">BAY SOUTH · SINGAPORE</div>
+  </header>
+
+  <main>
+    <section class="visitor-map-section" id="visitor-map">
+      <div class="container">
+        <div class="section-kicker">OFFICIAL STYLE BAY SOUTH MAP</div>
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+          <div>
+            <h2>Bay South visitor map</h2>
+            <p class="section-copy mb-0">
+              The illustrated Gardens by the Bay — Bay South map with numbered attractions, dining and visitor facilities.
+            </p>
+          </div>
+          <a class="btn btn-map" href="assets/bay-south-map-hires.jpg" download="Gardens-by-the-Bay-Bay-South-Map.jpg">
+            Download this map ↓
+          </a>
+        </div>
+        <figure class="visitor-map-frame">
+          <img
+            src="assets/bay-south-map-hires.jpg"
+            alt="Gardens by the Bay Bay South illustrated visitor map showing Flower Dome, Cloud Forest, Supertree Grove and numbered points of interest"
+            class="visitor-map-image"
+            id="visitorMapImage"
+          />
+          <figcaption>
+            Illustrated visitor map of Bay South — use the live satellite map below to hover pins for real photos, hours and prices.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="intro-section" id="explore">
+      <div class="container">
+        <div class="section-kicker">YOUR GARDEN JOURNEY STARTS HERE</div>
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+          <div>
+            <h2>Explore the Gardens</h2>
+            <p class="section-copy mb-0">
+              Select a location on the real-world map to reveal its story, visitor information and ticket details.
+            </p>
+          </div>
+          <div class="map-tools">
+            <div class="search-wrap">
+              <span aria-hidden="true">⌕</span>
+              <input id="placeSearch" type="search" placeholder="Find Flower Dome, Skyway…" aria-label="Find an attraction" />
+            </div>
+            <button class="btn btn-map" id="resetMap" type="button">Reset map ↺</button>
+            <button class="btn btn-map" id="toggleLayer" type="button" title="Switch map style">Satellite / Street</button>
+            <a class="btn btn-map" href="assets/bay-south-map-hires.jpg" download="Gardens-by-the-Bay-Bay-South-Map.jpg">
+              Download map ↓
+            </a>
+          </div>
+        </div>
+        <div class="category-chips" id="categoryChips" aria-label="Filter places"></div>
+        <p class="search-empty" id="searchEmpty" role="status" hidden></p>
+
+        <div class="map-layout">
+          <div class="map-stage">
+            <div class="map-topline">
+              <span><i class="live-dot" aria-hidden="true"></i> LIVE SATELLITE MAP</span>
+              <span class="map-hint">Hover or tap a marker to explore</span>
+            </div>
+            <div id="leafletMap" class="leaflet-host" role="application" aria-label="Gardens by the Bay satellite map"></div>
+            <div class="map-legend">
+              <span><i class="legend-dot paid"></i> Ticketed attractions</span>
+              <span><i class="legend-dot free"></i> Outdoor spaces</span>
+              <span class="legend-disclaimer">Hover a pin — the guide panel shows a real photo &amp; details.</span>
+            </div>
+          </div>
+
+          <aside class="detail-panel" id="detailPanel" aria-live="polite">
+            <div class="detail-image-wrap">
+              <img
+                id="detailImage"
+                src="assets/places/supertree.jpg"
+                alt="Supertree Grove at Gardens by the Bay"
+              />
+              <span class="detail-tag" id="detailTag">START EXPLORING</span>
+              <span class="detail-price-badge" id="detailPriceBadge">Prices on hover</span>
+            </div>
+            <div class="detail-body">
+              <div class="detail-number" id="detailNumber">GARDEN GUIDE · 00</div>
+              <div class="status-pill" id="detailStatus" hidden></div>
+              <h3 id="detailTitle">A world of wonder awaits.</h3>
+              <p id="detailDescription">
+                Hover or tap any numbered marker on the map to reveal a real photograph, visitor information
+                and admission prices — just like the official Gardens Map experience.
+              </p>
+              <div class="detail-meta">
+                <div>
+                  <span>OPENING HOURS</span>
+                  <strong id="detailHours">Varies by location</strong>
+                </div>
+                <div>
+                  <span>ADMISSION</span>
+                  <strong id="detailPrice">Explore free spaces &amp; ticketed attractions</strong>
+                </div>
+              </div>
+              <div class="map-position-box" id="mapPositionBox" hidden>
+                <span>MAP POSITION</span>
+                <strong id="detailCoords">—</strong>
+                <a id="detailMapsLink" href="#" target="_blank" rel="noopener">Open in Google Maps ↗</a>
+              </div>
+              <div class="price-table" id="priceTable" hidden>
+                <div class="price-table-title">PRICE DETAILS</div>
+                <div class="price-rows" id="priceRows"></div>
+                <p class="price-footnote" id="priceNote">*SGD rates from the official Gardens by the Bay site. Confirm before visiting, as prices and packages change.</p>
+              </div>
+              <div class="detail-actions">
+                <button type="button" class="btn btn-forest rounded-pill" id="takeMeThere">Take me there</button>
+                <button type="button" class="btn btn-outline-forest rounded-pill" id="shareLocationBtn">Share this location ↗</button>
+                <a
+                  id="detailLink"
+                  class="detail-link"
+                  href="https://www.gardensbythebay.com.sg/en/plan-your-visit/gardens-map.html"
+                  target="_blank"
+                  rel="noopener"
+                >View on official Gardens Map ↗</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="mobile-place-list" id="mobilePlaceList"></div>
+      </div>
+    </section>
+
+    <section class="offers-section" id="offers">
+      <div class="container-fluid px-0">
+        <div class="offers-shell">
+          <div class="offers-intro">
+            <h2>See what the Gardens<br />has to offer</h2>
+            <a class="btn btn-light rounded-0 px-4 py-2 fw-semibold" href="https://www.gardensbythebay.com.sg/en/things-to-do/attractions.html" target="_blank" rel="noopener">VIEW ALL ATTRACTIONS</a>
+          </div>
+          <div class="offers-carousel">
+            <button type="button" class="offer-nav offer-prev" id="offerPrev" aria-label="Previous">‹</button>
+            <div class="offer-track" id="offerTrack"></div>
+            <button type="button" class="offer-nav offer-next" id="offerNext" aria-label="Next">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="highlights-section" id="highlights">
+      <div class="container">
+        <div class="section-kicker">MOMENTS TO REMEMBER</div>
+        <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+          <div>
+            <h2>Garden highlights</h2>
+            <p class="section-copy mb-0">A few extraordinary places to add to your journey.</p>
+          </div>
+          <a
+            class="text-link"
+            href="https://www.gardensbythebay.com.sg/en/things-to-do/attractions.html"
+            target="_blank"
+            rel="noopener"
+          >All attractions ↗</a>
+        </div>
+        <div class="row g-4" id="highlightCards"></div>
+      </div>
+    </section>
+
+    <section class="visit-section" id="visit">
+      <div class="container">
+        <div class="visit-card">
+          <div>
+            <div class="section-kicker text-white-50">MAKE THE MOST OF YOUR DAY</div>
+            <h2>Plan a visit<br /><em>to remember.</em></h2>
+            <p>Check opening hours, admission rates and visitor information before you arrive.</p>
+            <a
+              class="btn btn-light rounded-pill px-4 py-3 fw-semibold"
+              href="https://www.gardensbythebay.com.sg/en/plan-your-visit.html"
+              target="_blank"
+              rel="noopener"
+            >Plan your visit ↗</a>
+          </div>
+          <div class="visit-facts">
+            <div>
+              <span>LOCATION</span>
+              <strong>18 Marina Gardens Drive<br />Singapore 018953</strong>
+            </div>
+            <div>
+              <span>GARDEN HOURS</span>
+              <strong>Outdoor gardens generally<br />5.00am – 2.00am</strong>
+            </div>
+            <div>
+              <span>GETTING HERE</span>
+              <strong>Bayfront MRT<br />CE1 / DT16</strong>
+            </div>
+          </div>
+        </div>
+        <p class="price-note">
+          Ticket prices shown are indicative Singapore-dollar rates for non-residents, based on official
+          information available when this demo was prepared. Prices, packages, exhibitions, operating hours
+          and maintenance closures can change. Always confirm with Gardens by the Bay before visiting.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top d-flex flex-column flex-md-row justify-content-between gap-3">
+        <span class="footer-brand">✳ GARDENS <span class="brand-light">by the Bay</span></span>
+        <nav class="footer-links" aria-label="Official links">
+          <a href="https://www.gardensbythebay.com.sg/" target="_blank" rel="noopener">Official website ↗</a>
+          <a href="https://www.gardensbythebay.com.sg/en/plan-your-visit/gardens-map.html" target="_blank" rel="noopener">Official Gardens Map ↗</a>
+          <a href="https://www.gardensbythebay.com.sg/en/things-to-do/attractions.html" target="_blank" rel="noopener">Attractions ↗</a>
+          <a href="https://www.gardensbythebay.com.sg/en/plan-your-visit.html" target="_blank" rel="noopener">Plan your visit ↗</a>
+        </nav>
+      </div>
+      <div class="footer-note">
+        Interactive visitor concept · Photos, map positions, opening hours and prices are sourced from the official
+        Gardens by the Bay website and may change — please confirm on the official site before visiting.
+        Satellite imagery © Esri.
+      </div>
+    </div>
+  </footer>
+
+  <div class="share-modal" id="shareModal" aria-hidden="true">
+    <div class="share-box" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+      <button class="share-close" id="closeShare" aria-label="Close" type="button">×</button>
+      <div class="section-kicker">TAKE THE GARDEN WITH YOU</div>
+      <h3 id="shareTitle">Share this location</h3>
+      <p id="shareModalText">
+        Scan the QR code or copy the link to open this exact place on a phone — great for exhibition
+        screens and visitor handoff.
+      </p>
+      <div id="qrcode" class="qrcode-wrap"></div>
+      <div class="share-coords" id="shareCoords" hidden></div>
+      <div class="share-url" id="shareUrl"></div>
+      <div class="official-link-box" id="officialLinkBox" hidden>
+        <span>Official Gardens Map</span>
+        <a id="officialShareLink" href="#" target="_blank" rel="noopener"></a>
+      </div>
+      <button class="btn btn-dark rounded-pill px-4" id="copyUrl" type="button">Copy share link</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/places.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/hero.js"></script>
+</body>
+</html>
